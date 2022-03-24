@@ -1,19 +1,19 @@
 //SHIP FACTORY
 
 const Ship = (length) => {
-    const shipHitAt = [];
+    const hitAt = [];
     const hit = (number) => {
-        shipHitAt.push(number);
-        return shipHitAt;
+        hitAt.push(number);
+        return hitAt;
     }
     const isSunk = () => {
-        if (shipHitAt.length >= this.length){
+        if (hitAt.length >= this.length){
             return 'Sunk'
         } else {
             return 'Not sunk'
         }
     }
-    return {length, shipHitAt, hit, isSunk}
+    return {length, hitAt, hit, isSunk}
 }
 // GAMEBOARD FACTORY
 
