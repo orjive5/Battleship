@@ -1,6 +1,16 @@
 //SHIP FACTORY
 
 const Ship = (position, length) => {
+    let shipCells = []
+    const coordinates = () => {
+        let startCell = position - 1;
+        let lastCell = startCell + (length - 1);
+        for (let i = startCell; i <= lastCell; i++){
+            shipCells.push(i);
+        }
+        return shipCells;
+    }
+    coordinates();
     const hitAt = [];
     const hit = (number) => {
         hitAt.push(number);
@@ -13,7 +23,7 @@ const Ship = (position, length) => {
             return 'Not sunk'
         }
     }
-    return {position, length, hitAt, hit, isSunk}
+    return {position, length, shipCells, coordinates, hitAt, hit, isSunk}
 }
 
 // GAMEBOARD FACTORY
@@ -70,6 +80,10 @@ const Gameboard = () => {
 // PLAYERS FACTORY
 
 const Player = () => {
+    const playerGameboardShipCells = [];
+    playerGameboard.shipArray.forEach(element => element.shipCells.forEach(el => playerGameboardShipCells.push(el)));
+    const computerGameboardShipCells = [];
+    computerGameboard.shipArray.forEach(element => element.shipCells.forEach(el => computerGameboardShipCells.push(el)));
     const playerPlays = () => {
         for (let i = 100; i < gridCell.length; i++){
                 gridCell[i].addEventListener('click', () => {
@@ -96,7 +110,7 @@ const Player = () => {
             gridCell[computerAttack].classList.add('grid-cell-attacked');
         }
     }
-    return {playerPlays, computerPlays}
+    return {playerGameboardShipCells, computerGameboardShipCells, playerPlays, computerPlays}
 }
 
 //MAIN GAME LOOP
