@@ -1,12 +1,16 @@
 const Ship = require('./ship');
 
 test('return correct ship value', () => {
-    const newShip = Ship(2);
-    expect(newShip.length).toBe(2);
+    const newShip = Ship(12,3);
+    expect(newShip.length).toBe(3);
+    expect(newShip.position).toBe(12);
+    expect(newShip.shipCells).toEqual([12,13,14]);
     expect(newShip.hitAt).toEqual([]);
-    expect(newShip.isSunk()).toBe('Not sunk');
-    expect(newShip.hit(1)).toEqual([1]);
-    expect(newShip.hitAt).toEqual([1]);
-    newShip.hit(2);
-    expect(newShip.isSunk()).toBe('Sunk');
+    newShip.hit(12);
+    expect(newShip.hitAt).toEqual([12]);
+    expect(newShip.isSunk()).toBe(false);
+    newShip.hit(13);
+    newShip.hit(14);
+    expect(newShip.hitAt).toEqual([12,13,14]);
+    expect(newShip.isSunk()).toBe(true);
 });

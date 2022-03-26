@@ -1,19 +1,22 @@
 //SHIP FACTORY
 
-const Ship = (length) => {
+const Ship = (position, length) => {
+    const shipCells = [];
+    for (let i = position; i < position + length; i++){
+        shipCells.push(i);
+    }
     const hitAt = [];
-    const hit = (number) => {
-        hitAt.push(number);
-        return hitAt;
+    const hit = (cellNumber) => {
+        return hitAt.push(cellNumber);
     }
     const isSunk = () => {
-        if (hitAt.length >= Ship.length){
-            return 'Sunk'
+        if (hitAt.length >= length){
+            return true;
         } else {
-            return 'Not sunk'
+            return false;
         }
     }
-    return {length, hitAt, hit, isSunk}
+    return {position, length, shipCells, hitAt, hit, isSunk}
 }
 
 module.exports = Ship;
