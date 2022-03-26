@@ -1,19 +1,17 @@
 //SHIP FACTORY
 
 const Ship = (position, length) => {
-    let shipCells = []
+    const shipCells = [];
     const coordinates = () => {
-        let startCell = position - 1;
-        let lastCell = startCell + (length - 1);
-        for (let i = startCell; i <= lastCell; i++){
+        for (let i = position; i < position + length; i++){
             shipCells.push(i);
         }
         return shipCells;
     }
     coordinates();
     const hitAt = [];
-    const hit = (number) => {
-        hitAt.push(number);
+    const hit = (cellNumber) => {
+        hitAt.push(cellNumber);
         return hitAt;
     }
     const isSunk = () => {
@@ -30,44 +28,54 @@ const Ship = (position, length) => {
 
 const Gameboard = () => {
     const shipArray = [];
-        const createShip = (position, length) => {
-            shipArray.push(Ship(position, length));
-                if (position < 100){
-                    for (let i = position-1; i < (position-1)+length; i++){
-                        if (gridCell[i].classList.contains('player-grid-cell-battleship')){
-                            console.log('try different length and position');
-                            shipArray.pop();
-                                while (i > position - 1){
-                                    gridCell[i-1].classList.remove('player-grid-cell-battleship');
-                                i--;
-                            }
-                            break;
-                        } else {
-                            gridCell[i].classList.add('player-grid-cell-battleship');
-                        }
+    const allShipCells = [];
+    const pushAllShipCells = () => {
+        shipArray.forEach(element => element.shipCells.forEach(el => {
+            if (!allShipCells.includes(el)){
+                allShipCells.push(el)
+            }
+        }));
+    }
+    const createShip = (position, length) => {
+        shipArray.push(Ship(position, length));
+        pushAllShipCells();
+        //Create Player Ships
+        if (position < 99){
+            for (let i = position; i < position + length; i++){
+                if (gridCell[i].classList.contains('player-grid-cell-battleship')){
+                    console.log('try different length and position');
+                    shipArray.pop();
+                    while (i > position){
+                        gridCell[i].classList.remove('player-grid-cell-battleship');
+                        i--;
                     }
+                    break;
                 } else {
-                    for (let i = position-1; i < (position-1)+length; i++){
-                        if (gridCell[i].classList.contains('computer-grid-cell-battleship')){
-                            console.log('try different length and position');
-                            shipArray.pop();
-                                while (i > position - 1){
-                                    gridCell[i-1].classList.remove('computer-grid-cell-battleship');
-                                i--;
-                            }
-                            break;
-                        } else {
-                            gridCell[i].classList.add('computer-grid-cell-battleship');
-                        }
+                        gridCell[i].classList.add('player-grid-cell-battleship');
                     }
-                }
-            return shipArray;
+            }
+        } else {
+            for (let i = position; i < position+length; i++){
+                if (gridCell[i].classList.contains('computer-grid-cell-battleship')){
+                    console.log('try different length and position');
+                    shipArray.pop();
+                    while (i > position){
+                        gridCell[i].classList.remove('computer-grid-cell-battleship');
+                        i--;
+                    }
+                    break;
+                } else {
+                    gridCell[i].classList.add('computer-grid-cell-battleship');
+                        }
+            }
         }
+        return shipArray;
+    }
     const recordMissedShots = [];
     const receiveAttack = (attackPosition) => {
-        for (let j = 0; j < shipArray.length; j++){
-            if (shipArray[j].shipCells.includes(attackPosition)){
-                return shipArray[j].hit(attackPosition);
+        for (let i = 0; i < shipArray.length; i++){
+            if (shipArray[i].shipCells.includes(attackPosition)){
+                return shipArray[i].hit(attackPosition);
             }
         }
         return recordMissedShots.push(attackPosition);
@@ -76,12 +84,12 @@ const Gameboard = () => {
         let sunkArray = [];
         sunkArray = shipArray.map(el => el.isSunk());
         if (sunkArray.includes(false)){
-            return 'Not sunk'
+            return false;
         } else {
-            return 'All sunk. Game over'
+            return true;
         }
     }
-    return {createShip, shipArray, receiveAttack, recordMissedShots, allSunk}
+    return {createShip, shipArray, pushAllShipCells, allShipCells, receiveAttack, recordMissedShots, allSunk}
 }
 
 // PLAYERS FACTORY
@@ -89,43 +97,39 @@ const Gameboard = () => {
 const Player = () => {
     const hitComputerCells = [];
     const hitPlayerCells = [];
-    const playerGameboardShipCells = [];
-    playerGameboard.shipArray.forEach(element => element.shipCells.forEach(el => playerGameboardShipCells.push(el)));
-    const computerGameboardShipCells = [];
-    computerGameboard.shipArray.forEach(element => element.shipCells.forEach(el => computerGameboardShipCells.push(el)));
     const playerPlays = () => {
         for (let i = 100; i < gridCell.length; i++){
                 gridCell[i].addEventListener('click', () => {
                     computerGameboard.receiveAttack(i);
-                    console.log(computerGameboard.allSunk());
                     if (hitComputerCells.includes(i)){
                         console.log('Try again!');
                     }
-                    else if (computerGameboardShipCells.includes(i)){
+                    else if (computerGameboard.allShipCells.includes(i)){
                         gridCell[i].classList.add('grid-cell-hit');
                         hitComputerCells.push(i);
                     } else {
                         gridCell[i].classList.add('grid-cell-attacked');
                     }
                     computerPlays();
+                    console.log(computerGameboard.allSunk());
                 });
         }
     }
     const computerPlays = () => {
         const computerAttack = Math.floor(Math.random() * 100);
         playerGameboard.receiveAttack(computerAttack);
-        console.log(playerGameboard.allSunk());
         if (hitPlayerCells.includes(computerAttack)){
             computerPlays();
         }
-        else if (playerGameboardShipCells.includes(computerAttack)){
+        else if (playerGameboard.allShipCells.includes(computerAttack)){
             gridCell[computerAttack].classList.add('grid-cell-hit');
             hitPlayerCells.push(computerAttack);
         } else {
             gridCell[computerAttack].classList.add('grid-cell-attacked');
         }
+        console.log(playerGameboard.allSunk());
     }
-    return {hitComputerCells, hitPlayerCells, playerGameboardShipCells, computerGameboardShipCells, playerPlays, computerPlays}
+    return {hitComputerCells, hitPlayerCells, playerPlays, computerPlays}
 }
 
 //MAIN GAME LOOP
