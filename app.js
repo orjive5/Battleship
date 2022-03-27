@@ -61,7 +61,11 @@ const Gameboard = () => {
                 return shipArray[i].hit(attackPosition);
             }
         }
-        return recordMissedShots.push(attackPosition);
+        if (!recordMissedShots.includes(attackPosition)){
+            return recordMissedShots.push(attackPosition);
+        } else {
+            return recordMissedShots;
+        }
     }
     const allSunk = () => {
         let sunkArray = [];
@@ -83,34 +87,37 @@ const Player = () => {
     const playerPlays = () => {
         for (let i = 100; i < gridCell.length; i++){
                 gridCell[i].addEventListener('click', () => {
-                    computerGameboard.receiveAttack(i);
                     if (hitComputerCells.includes(i)){
-                        return console.log('Try again!');
-                    }
-                    else if (computerGameboard.allShipCells.includes(i)){
+                        return console.log('Already hit, try different cell')
+                    } else if (computerGameboard.recordMissedShots.includes(i)){
+                        return console.log('Already attacked, try different cell');
+                    } else if (computerGameboard.allShipCells.includes(i)){
                         gridCell[i].classList.add('grid-cell-hit');
                         hitComputerCells.push(i);
+                        computerGameboard.receiveAttack(i);
+                        return computerPlays();
                     } else {
                         gridCell[i].classList.add('grid-cell-attacked');
+                        computerGameboard.receiveAttack(i);
+                        return computerPlays();
                     }
-                    computerPlays();
-                    console.log(computerGameboard.allSunk());
                 });
         }
     }
     const computerPlays = () => {
         const computerAttack = Math.floor(Math.random() * 100);
-        playerGameboard.receiveAttack(computerAttack);
         if (hitPlayerCells.includes(computerAttack)){
-            computerPlays();
-        }
-        else if (playerGameboard.allShipCells.includes(computerAttack)){
+            return computerPlays();
+        } else if (playerGameboard.recordMissedShots.includes(computerAttack)){
+            return computerPlays();
+        } else if (playerGameboard.allShipCells.includes(computerAttack)){
             gridCell[computerAttack].classList.add('grid-cell-hit');
             hitPlayerCells.push(computerAttack);
+            return playerGameboard.receiveAttack(computerAttack);
         } else {
             gridCell[computerAttack].classList.add('grid-cell-attacked');
+            return playerGameboard.receiveAttack(computerAttack);
         }
-        console.log(playerGameboard.allSunk());
     }
     return {hitComputerCells, hitPlayerCells, playerPlays, computerPlays}
 }
