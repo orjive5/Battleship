@@ -76,6 +76,10 @@ body {
     gap: 1px;
 }
 
+.ai-gameboard {
+    display: none;
+}
+
 .grid-cell {
     background-color: darkseagreen;
 }
