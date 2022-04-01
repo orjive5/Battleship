@@ -112,8 +112,14 @@ const Gameboard = () => {
         }
     }
     const gameOver = () => {
-        
         if (allSunk()){
+
+            if (computerGameboard.allSunk()){
+                gameOverMessage.innerHTML = `Game over! ${document.querySelector('.player-gameboard-name').innerHTML} wins!`
+            } else if (playerGameboard.allSunk()){
+                gameOverMessage.innerHTML = 'Game over! Computer wins!'
+            }
+            // document.querySelector('.player-gameboard-name').innerHTML = getUsername.value;
 
             computerGameboard.allShipCells.length = 0;
             computerGameboard.recordMissedShots.length = 0;
@@ -133,19 +139,12 @@ const Gameboard = () => {
                 gridCell[i].classList.remove('computer-grid-cell-battleship');
             }
 
-            document.querySelector('.player-gameboard').style.display = 'none';
             document.querySelector('.ai-gameboard').style.display = 'none';
-            document.querySelector('.player-gameboard-name').style.display = 'none';
-            appendNewElement(
-                'button', 
-                 document.querySelector('.gameboards'), 
-                 'Create New Game', 
-                 'create-new-game-button'
-                );
-            document.querySelector('.gameboards').style.justifyContent = 'center';
-            // userInformation.style.display = 'flex';
+            document.querySelector('.user-gameboard').style.display = 'none';
+            createNewGameButton.style.display = 'initial';
+            gameOverMessage.style.display = 'initial';
 
-            return console.log('GAME OVER');
+            document.querySelector('.gameboards').style.justifyContent = 'center';
         }
 
     }
@@ -215,15 +214,14 @@ const Player = () => {
 
             gridCell[computerAttack].classList.add('grid-cell-hit');
             hitPlayerCells.push(computerAttack);
-
-            return playerGameboard.receiveAttack(computerAttack);
+            playerGameboard.receiveAttack(computerAttack);
+            playerGameboard.gameOver();
 
         } else {
 
             gridCell[computerAttack].classList.add('grid-cell-attacked');
-            playerGameboard.gameOver();
 
-            return playerGameboard.receiveAttack(computerAttack);
+            playerGameboard.receiveAttack(computerAttack);
 
         }
 
@@ -317,6 +315,42 @@ createShipButton.addEventListener('click', () => {
     }
 });
 
+//DRAG AND DROP TO CREATE PLAYER'S FLEET
+
+const dragAndDropShips = document.querySelector('.select-grid');
+const shipLength5 = document.querySelector('.select-grid-length-5');
+const shipLength4 = document.querySelector('.select-grid-length-4');
+const shipLength3 = document.querySelector('.select-grid-length-3');
+const shipLength2 = document.querySelector('.select-grid-length-2');
+const shipLength1 = document.querySelector('.select-grid-length-1');
+const draggableShips = document.querySelectorAll('.drag-ship');
+
+for (let i = 0; i < draggableShips.length; i++){
+    draggableShips[i].addEventListener('dragstart', (ev) => {
+        ev.dataTransfer.setData("text", ev.target.className.split(" ")[0]);
+    })
+}
+
+document.querySelector('.player-gameboard').addEventListener('dragover', (ev) => {
+    ev.preventDefault();
+});
+
+document.querySelector('.player-gameboard').addEventListener('drop', (ev) => {
+    ev.preventDefault();
+    let data = ev.dataTransfer.getData("text");
+    const shipLength = document.querySelector(`.${data}`).getElementsByTagName('*').length
+    ev.target.classList.add('drop-target-cell');
+    for (let i = 0; i < gridCell.length; i++) {
+        if (gridCell[i].classList.contains('drop-target-cell')){
+            playerGameboard.createShip(i, shipLength);
+            gridCell[i].classList.remove('drop-target-cell');
+        }
+    }
+    document.querySelector(`.${data}`).style.display = 'none';
+    
+})
+
+
 //Name player's gameboard
 getUsername.addEventListener('input', () => {
     document.querySelector('.player-gameboard-name').innerHTML = getUsername.value;
@@ -354,3 +388,33 @@ startButton.addEventListener('click', () => {
 const players = Player();
 
 players.playerPlays();
+
+//Game Over & Create New Game
+
+appendNewElement(
+    'h1',
+    document.querySelector('.gameboards'),
+    `GAME OVER`,
+    'game-over-message'
+    );
+
+    const gameOverMessage = document.querySelector('#game-over-message');
+    gameOverMessage.style.display = 'none';
+
+appendNewElement(
+    'button', 
+     document.querySelector('.gameboards'), 
+     'Create New Game', 
+     'create-new-game-button'
+    );
+
+const createNewGameButton = document.querySelector('#create-new-game-button');
+createNewGameButton.style.display = 'none';
+createNewGameButton.addEventListener('click', () => {
+    createNewGameButton.style.display = 'none';
+    gameOverMessage.style.display = 'none';
+    userInformation.style.display = 'flex';
+    document.querySelector('.user-gameboard').style.display = 'initial';
+    document.querySelector('.gameboards').style.justifyContent = 'space-around';
+    draggableShips.forEach(element => element.style.display = 'grid');
+});

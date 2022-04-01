@@ -107,3 +107,55 @@ body {
 .grid-cell-hit:hover {
     background-color: crimson;
 }
+
+.select-grid-length-5 {
+    background-color: beige;
+    display: grid;
+    grid-template-rows: 29px;
+    grid-template-columns: repeat(5, 29px);
+    gap: 1px;
+}
+.select-grid-length-4 {
+    background-color: beige;
+    display: grid;
+    grid-template-rows: 29px;
+    grid-template-columns: repeat(4, 29px);
+    gap: 1px;
+}
+.select-grid-length-3 {
+    background-color: beige;
+    display: grid;
+    grid-template-rows: 29px;
+    grid-template-columns: repeat(3, 29px);
+    gap: 1px;
+}
+.select-grid-length-2 {
+    background-color: beige;
+    display: grid;
+    grid-template-rows: 29px;
+    grid-template-columns: repeat(2, 29px);
+    gap: 1px;
+}
+.select-grid-length-1 {
+    background-color: beige;
+    display: grid;
+    grid-template-rows: 29px;
+    grid-template-columns: 29px;
+    gap: 1px;
+}
+
+.select-grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+.select-ships {
+    background-color: black;
+}
+
+.select-ships:hover {
+    cursor: pointer;
+}
