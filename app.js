@@ -269,26 +269,26 @@ const userInformation = document.querySelector('#user-information');
 userInformation.style.display = 'flex';
 userInformation.style.flexDirection = 'column';
 
-appendNewElement('label', userInformation, 'Choose ship position:', 'choose-ship-position');
-const chooseShipPosition = document.querySelector('#choose-ship-position');
-chooseShipPosition.setAttribute('for', 'ship-position-number');
+// appendNewElement('label', userInformation, 'Choose ship position:', 'choose-ship-position');
+// const chooseShipPosition = document.querySelector('#choose-ship-position');
+// chooseShipPosition.setAttribute('for', 'ship-position-number');
 
-appendNewElement('input', userInformation, undefined, 'ship-position-number');
-const shipPositionNumber = document.querySelector('#ship-position-number');
-shipPositionNumber.setAttribute('placeholder', 'Enter number 0-99');
-shipPositionNumber.setAttribute('type', 'text');
+// appendNewElement('input', userInformation, undefined, 'ship-position-number');
+// const shipPositionNumber = document.querySelector('#ship-position-number');
+// shipPositionNumber.setAttribute('placeholder', 'Enter number 0-99');
+// shipPositionNumber.setAttribute('type', 'text');
 
-appendNewElement('label', userInformation, 'Choose ship length:', 'choose-ship-length');
-const chooseShipLength = document.querySelector('#choose-ship-length');
-chooseShipLength.setAttribute('for', 'ship-length-number');
+// appendNewElement('label', userInformation, 'Choose ship length:', 'choose-ship-length');
+// const chooseShipLength = document.querySelector('#choose-ship-length');
+// chooseShipLength.setAttribute('for', 'ship-length-number');
 
-appendNewElement('input', userInformation, undefined, 'ship-length-number');
-const shipLengthNumber = document.querySelector('#ship-length-number');
-shipLengthNumber.setAttribute('placeholder', 'Enter number 1-5');
-shipLengthNumber.setAttribute('type', 'text');
+// appendNewElement('input', userInformation, undefined, 'ship-length-number');
+// const shipLengthNumber = document.querySelector('#ship-length-number');
+// shipLengthNumber.setAttribute('placeholder', 'Enter number 1-5');
+// shipLengthNumber.setAttribute('type', 'text');
 
-appendNewElement('button', userInformation, 'Create ship', 'create-ship-button');
-const createShipButton = document.querySelector('#create-ship-button');
+// appendNewElement('button', userInformation, 'Create ship', 'create-ship-button');
+// const createShipButton = document.querySelector('#create-ship-button');
 
 appendNewElement('label', userInformation, 'Enter your name:', 'label-for-username');
 const labelForUsername = document.querySelector('#label-for-username');
@@ -303,17 +303,17 @@ appendNewElement('button', userInformation, 'Start game', 'start-button');
 const startButton = document.querySelector('#start-button');
 
 //Create player's fleet
-createShipButton.addEventListener('click', () => {
-    if (Number(shipPositionNumber.value) < 0 || Number(shipPositionNumber.value) > 99 || shipPositionNumber.value === ''){
-        return console.log('try again with correct value');
-    } else if (Number(shipLengthNumber.value) < 1 || Number(shipLengthNumber.value) > 5 || shipLengthNumber.value === ''){
-        return console.log('try again with correct value');
-    } else if (playerGameboard.allShipCells.length >= 15){
-        return console.log(`you've already created all available ships`);
-    } else {
-        return playerGameboard.createShip(Number(shipPositionNumber.value), Number(shipLengthNumber.value));
-    }
-});
+// createShipButton.addEventListener('click', () => {
+//     if (Number(shipPositionNumber.value) < 0 || Number(shipPositionNumber.value) > 99 || shipPositionNumber.value === ''){
+//         return console.log('try again with correct value');
+//     } else if (Number(shipLengthNumber.value) < 1 || Number(shipLengthNumber.value) > 5 || shipLengthNumber.value === ''){
+//         return console.log('try again with correct value');
+//     } else if (playerGameboard.allShipCells.length >= 15){
+//         return console.log(`you've already created all available ships`);
+//     } else {
+//         return playerGameboard.createShip(Number(shipPositionNumber.value), Number(shipLengthNumber.value));
+//     }
+// });
 
 //DRAG AND DROP TO CREATE PLAYER'S FLEET
 
@@ -340,13 +340,18 @@ document.querySelector('.player-gameboard').addEventListener('drop', (ev) => {
     let data = ev.dataTransfer.getData("text");
     const shipLength = document.querySelector(`.${data}`).getElementsByTagName('*').length;
     ev.target.classList.add('drop-target-cell');
-    for (let i = 0; i < gridCell.length; i++) {
+    const getTakenCells = (min, max) => [...Array(max - min + 1).keys()].map(i => i + min);
+    for (let i = 0; i < 100; i++) {
+        let takenCells = getTakenCells(i, (i + shipLength - 1));
+        let checkCells = takenCells.map(el => !gridCell[el].classList.contains('player-grid-cell-battleship'));
         if (gridCell[i].classList.contains('drop-target-cell')){
-            if (i + shipLength < 100){
+            if (i + shipLength <= 100 && checkCells.every(v => v === true)){
                 playerGameboard.createShip(i, shipLength);
+                gridCell[i].classList.remove('drop-target-cell');
                 document.querySelector(`.${data}`).style.display = 'none';
+            } else {
+                gridCell[i].classList.remove('drop-target-cell');
             }
-            gridCell[i].classList.remove('drop-target-cell');
         }
     }
     
@@ -377,6 +382,7 @@ function populateComputerGameboard() {
         }
     }
 }
+
 //START THE GAME BY CLICKING THE START BUTTON
 
 startButton.addEventListener('click', () => {
@@ -385,7 +391,9 @@ startButton.addEventListener('click', () => {
         document.querySelector('.ai-gameboard').style.display = 'initial';
         populateComputerGameboard();
     }
-})
+});
+
+//CREATE PLAYERS
 
 const players = Player();
 
