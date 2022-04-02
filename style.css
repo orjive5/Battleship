@@ -116,6 +116,15 @@ body {
     grid-template-columns: repeat(5, 29px);
     gap: 1px;
 }
+
+.select-grid-length-5-vertical {
+    background-color: beige;
+    display: grid;
+    grid-template-rows: repeat(5, 29px);
+    grid-template-columns: 29px;
+    gap: 1px;
+}
+
 .select-grid-length-4 {
     background-color: beige;
     display: grid;
@@ -123,6 +132,15 @@ body {
     grid-template-columns: repeat(4, 29px);
     gap: 1px;
 }
+
+.select-grid-length-4-vertical {
+    background-color: beige;
+    display: grid;
+    grid-template-rows: repeat(4, 29px);
+    grid-template-columns: 29px;
+    gap: 1px;
+}
+
 .select-grid-length-3 {
     background-color: beige;
     display: grid;
@@ -130,6 +148,15 @@ body {
     grid-template-columns: repeat(3, 29px);
     gap: 1px;
 }
+
+.select-grid-length-3-vertical {
+    background-color: beige;
+    display: grid;
+    grid-template-rows: repeat(3, 29px);
+    grid-template-columns: 29px;
+    gap: 1px;
+}
+
 .select-grid-length-2 {
     background-color: beige;
     display: grid;
@@ -137,7 +164,24 @@ body {
     grid-template-columns: repeat(2, 29px);
     gap: 1px;
 }
+
+.select-grid-length-2-vertical {
+    background-color: beige;
+    display: grid;
+    grid-template-rows: repeat(2, 29px);
+    grid-template-columns: 29px;
+    gap: 1px;
+}
+
 .select-grid-length-1 {
+    background-color: beige;
+    display: grid;
+    grid-template-rows: 29px;
+    grid-template-columns: 29px;
+    gap: 1px;
+}
+
+.select-grid-length-1-vertical {
     background-color: beige;
     display: grid;
     grid-template-rows: 29px;
@@ -151,6 +195,14 @@ body {
     justify-content: space-around;
     align-items: flex-start;
     gap: 5px;
+}
+
+.player-fleet {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 .select-ships {
