@@ -61,7 +61,7 @@ const Gameboard = () => {
             } else {
                 console.log('try different length and positions');
             }
-        } else if (tryCells.every(el => el > 100)){
+        } else if (tryCells.every(el => el > 100) && tryCells.every(el => el < 200)){
 
             if (!allShipCells.some(item => tryCells.includes(item))){
 
@@ -338,17 +338,19 @@ document.querySelector('.player-gameboard').addEventListener('dragover', (ev) =>
 document.querySelector('.player-gameboard').addEventListener('drop', (ev) => {
     ev.preventDefault();
     let data = ev.dataTransfer.getData("text");
-    const shipLength = document.querySelector(`.${data}`).getElementsByTagName('*').length
+    const shipLength = document.querySelector(`.${data}`).getElementsByTagName('*').length;
     ev.target.classList.add('drop-target-cell');
     for (let i = 0; i < gridCell.length; i++) {
         if (gridCell[i].classList.contains('drop-target-cell')){
-            playerGameboard.createShip(i, shipLength);
+            if (i + shipLength < 100){
+                playerGameboard.createShip(i, shipLength);
+                document.querySelector(`.${data}`).style.display = 'none';
+            }
             gridCell[i].classList.remove('drop-target-cell');
         }
     }
-    document.querySelector(`.${data}`).style.display = 'none';
     
-})
+});
 
 
 //Name player's gameboard
