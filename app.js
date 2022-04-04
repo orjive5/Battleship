@@ -1,16 +1,17 @@
 //SHIP FACTORY
 
-const Ship = (position, length) => {
+const Ship = (position, length, direction) => {
 
     const shipCells = [];
 
-
-    //     for (let i = position; i < position + (length*10); i+=10){
-//         shipCells.push(i);
-//     }
-
-    for (let i = position; i < position + length; i++){
-        shipCells.push(i);
+    if (direction === 'vertical'){
+        for (let i = position; i < position + (length*10); i+=10){
+            shipCells.push(i);
+        }
+    } else {
+        for (let i = position; i < position + length; i++){
+            shipCells.push(i);
+        }
     }
 
     const hitAt = [];
@@ -30,6 +31,7 @@ const Ship = (position, length) => {
     return {
         position,
         length,
+        direction,
         shipCells,
         hitAt,
         hit,
@@ -44,13 +46,54 @@ const Gameboard = () => {
     const shipArray = [];
     let allShipCells = [];
 
-    const createShip = (position, length) => {
+    const createShip = (position, length, direction) => {
 
         let tryCells = [];
+
+        if (direction === 'vertical'){
+
+            for (let i = position; i < position + (length*10); i+=10){
+                tryCells.push(i);
+            }
+    
+            if (tryCells.every(el => el < 100)){
+    
+                if (!allShipCells.some(item => tryCells.includes(item))){
+    
+                    shipArray.push(Ship(position, length, direction));
+                    allShipCells.push(...tryCells);
+    
+                    for (let i = position; i < position + (length*10); i+=10){
+                        gridCell[i].classList.add('player-grid-cell-battleship');
+                    }
+    
+                } else {
+                    console.log('try different length and positions');
+                }
+            } else if (tryCells.every(el => el > 100) && tryCells.every(el => el < 200)){
+    
+                if (!allShipCells.some(item => tryCells.includes(item))){
+    
+                    shipArray.push(Ship(position, length, direction));
+                    allShipCells.push(...tryCells);
+    
+                    for (let i = position; i < position + (length*10); i+=10){
+                        gridCell[i].classList.add('computer-grid-cell-battleship');
+                    }
+    
+                } else {
+                    console.log('try different length and positions');
+                }
+            } else {
+                console.log('try different length and positions');
+            }
+
+        } else if (direction === undefined) {
 
         for (let i = position; i < position + length; i++){
             tryCells.push(i);
         }
+        
 
         if (tryCells.every(el => el < 100)){
 
@@ -82,6 +125,7 @@ const Gameboard = () => {
             }
         } else {
             console.log('try different length and positions');
+        }
         }
 
         return shipArray;
@@ -288,58 +332,52 @@ const startButton = document.querySelector('#start-button');
 //DRAG AND DROP TO CREATE PLAYER'S FLEET
 
 const dragAndDropShips = document.querySelector('.select-grid');
+
 const playerFleet = document.querySelector('.player-fleet');
-const shipLength5 = document.querySelector('.select-grid-length-5');
-const shipLength4 = document.querySelector('.select-grid-length-4');
-const shipLength3 = document.querySelector('.select-grid-length-3');
-const shipLength2 = document.querySelector('.select-grid-length-2');
+
 const shipLength1 = document.querySelector('.select-grid-length-1');
+const shipLength2 = document.querySelector('.select-grid-length-2');
+const shipLength3 = document.querySelector('.select-grid-length-3');
+const shipLength4 = document.querySelector('.select-grid-length-4');
+const shipLength5 = document.querySelector('.select-grid-length-5');
+
 const draggableShips = document.querySelectorAll('.drag-ship');
+
 const rotateButton = document.querySelector('.rotate-button');
 
 rotateButton.addEventListener('click', () => {
-    if (shipLength1.classList.contains('select-grid-length-1')){
-        shipLength1.classList.remove('select-grid-length-1');
-        shipLength1.classList.add('select-grid-length-1-vertical');
+    if (!shipLength1.classList.contains('vertical')){
+        shipLength1.classList.add('vertical');
         playerFleet.style.flexDirection = 'row';
     } else {
-        shipLength1.classList.remove('select-grid-length-1-vertical');
-        shipLength1.classList.add('select-grid-length-1');
+        shipLength1.classList.remove('vertical');
         playerFleet.style.flexDirection = 'column';
     }
-    if (shipLength2.classList.contains('select-grid-length-2')){
-        shipLength2.classList.remove('select-grid-length-2');
-        shipLength2.classList.add('select-grid-length-2-vertical');
+    if (!shipLength2.classList.contains('vertical')){
+        shipLength2.classList.add('vertical');
     } else {
-        shipLength2.classList.remove('select-grid-length-2-vertical');
-        shipLength2.classList.add('select-grid-length-2');
+        shipLength2.classList.remove('vertical');
     }
-    if (shipLength3.classList.contains('select-grid-length-3')){
-        shipLength3.classList.remove('select-grid-length-3');
-        shipLength3.classList.add('select-grid-length-3-vertical');
+    if (!shipLength3.classList.contains('vertical')){
+        shipLength3.classList.add('vertical');
     } else {
-        shipLength3.classList.remove('select-grid-length-3-vertical');
-        shipLength3.classList.add('select-grid-length-3');
+        shipLength3.classList.remove('vertical');
     }
-    if (shipLength4.classList.contains('select-grid-length-4')){
-        shipLength4.classList.remove('select-grid-length-4');
-        shipLength4.classList.add('select-grid-length-4-vertical');
+    if (!shipLength4.classList.contains('vertical')){
+        shipLength4.classList.add('vertical');
     } else {
-        shipLength4.classList.remove('select-grid-length-4-vertical');
-        shipLength4.classList.add('select-grid-length-4');
+        shipLength4.classList.remove('vertical');
     }
-    if (shipLength5.classList.contains('select-grid-length-5')){
-        shipLength5.classList.remove('select-grid-length-5');
-        shipLength5.classList.add('select-grid-length-5-vertical');
+    if (!shipLength5.classList.contains('vertical')){
+        shipLength5.classList.add('vertical');
     } else {
-        shipLength5.classList.remove('select-grid-length-5-vertical');
-        shipLength5.classList.add('select-grid-length-5');
+        shipLength5.classList.remove('vertical');
     }
-})
+});
 
 for (let i = 0; i < draggableShips.length; i++){
     draggableShips[i].addEventListener('dragstart', (ev) => {
-        ev.dataTransfer.setData("text", ev.target.className.split(" ")[0]);
+        ev.dataTransfer.setData("text", ev.target.classList);
     })
 }
 
@@ -350,23 +388,43 @@ document.querySelector('.player-gameboard').addEventListener('dragover', (ev) =>
 document.querySelector('.player-gameboard').addEventListener('drop', (ev) => {
     ev.preventDefault();
     let data = ev.dataTransfer.getData("text");
-    const shipLength = document.querySelector(`.${data}`).getElementsByTagName('*').length;
+    let dataSplit = data.split(' ');
+    const shipLength = document.querySelector(`.${dataSplit[1]}`).getElementsByTagName('*').length;
     ev.target.classList.add('drop-target-cell');
-    const getTakenCells = (min, max) => [...Array(max - min + 1).keys()].map(i => i + min);
-    for (let i = 0; i < 100; i++) {
-        let takenCells = getTakenCells(i, (i + shipLength - 1));
-        let checkCells = takenCells.map(el => !gridCell[el].classList.contains('player-grid-cell-battleship'));
-        if (gridCell[i].classList.contains('drop-target-cell')){
-            if (i + shipLength <= 100 && checkCells.every(v => v === true)){
-                playerGameboard.createShip(i, shipLength);
-                gridCell[i].classList.remove('drop-target-cell');
-                document.querySelector(`.${data}`).style.display = 'none';
-            } else {
-                gridCell[i].classList.remove('drop-target-cell');
+    if (dataSplit.includes('vertical')){
+        for (let i = 0; i < 100; i++){
+            let takenVerticalCells = [];
+                for (let i; i < i + (shipLength*10); i+=10){
+                    takenVerticalCells.push(i);
+                }
+            let checkVerticalCells = takenVerticalCells.map(el => !gridCell[el].classList.contains('player-grid-cell-battleship'));
+            if (gridCell[i].classList.contains('drop-target-cell')){
+                if (i + (shipLength*10-10) < 100 && checkVerticalCells.every(v => v === true) && gridCell[i].dataset.y === gridCell[i+(shipLength*10-10)].dataset.y){
+                    playerGameboard.createShip(i, shipLength, 'vertical');
+                    gridCell[i].classList.remove('drop-target-cell');
+                    document.querySelector(`.${dataSplit[1]}`).style.display = 'none';
+                } else {
+                    gridCell[i].classList.remove('drop-target-cell');
+                    console.log('not possible');
+                }
+            }
+        }
+    } else {
+        const getTakenCells = (min, max) => [...Array(max - min + 1).keys()].map(i => i + min);
+        for (let i = 0; i < 100; i++) {
+            let takenCells = getTakenCells(i, (i + shipLength - 1));
+            let checkCells = takenCells.map(el => !gridCell[el].classList.contains('player-grid-cell-battleship'));
+            if (gridCell[i].classList.contains('drop-target-cell')){
+                if (i + shipLength <= 100 && checkCells.every(v => v === true) && gridCell[i].dataset.x === gridCell[i+shipLength-1].dataset.x){
+                    playerGameboard.createShip(i, shipLength);
+                    gridCell[i].classList.remove('drop-target-cell');
+                    document.querySelector(`.${dataSplit[1]}`).style.display = 'none';
+                } else {
+                    gridCell[i].classList.remove('drop-target-cell');
+                }
             }
         }
     }
-    
 });
 
 
@@ -376,10 +434,36 @@ getUsername.addEventListener('input', () => {
 });
 
 //Populate Computer gameboard
+
+//FIX///////////////////////////////////////////////////////
+
 function populateComputerGameboard() {
     if (computerGameboard.shipArray.length < 5){
+        let randomDirection;
+        function getRandomDirection () {
+            if (Math.random() < 0.5){
+                randomDirection = 'vertical';
+            } else if (Math.random() >= 0.5) {
+                randomDirection = undefined;
+            }
+            return randomDirection;
+        }
+        getRandomDirection();
         for (let i = 1; i < 6; i++){
-            computerGameboard.createShip(Math.floor(Math.random() * 100 + 100), i);
+            let randomPosition = Math.floor(Math.random() * 100 + 100);
+            if (randomDirection === 'vertical'){
+                if (gridCell[randomPosition].dataset.y === gridCell[randomPosition+(i*10-10)].dataset.y){
+                    computerGameboard.createShip(randomPosition, i, randomDirection);
+                }
+            } else if (randomDirection === undefined){
+                if (gridCell[randomPosition].dataset.x === gridCell[randomPosition+(i-1)].dataset.x){
+                    computerGameboard.createShip(randomPosition, i, randomDirection);
+                }
+            }
+            // gridCell[i].dataset.x === gridCell[i+shipLength-1].dataset.x
+            // gridCell[i].dataset.y === gridCell[i+(shipLength*10-10)].dataset.y
+            // Math.floor(Math.random() * 100 + 100)
+            // computerGameboard.createShip(Math.floor(Math.random() * 100 + 100), i, randomDirection);
         }
         let createdShipLengths = [];
         computerGameboard.shipArray.forEach(element => createdShipLengths.push(element.length));

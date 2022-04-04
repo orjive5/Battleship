@@ -117,7 +117,7 @@ body {
     gap: 1px;
 }
 
-.select-grid-length-5-vertical {
+.select-grid-length-5.vertical {
     background-color: beige;
     display: grid;
     grid-template-rows: repeat(5, 29px);
@@ -133,7 +133,7 @@ body {
     gap: 1px;
 }
 
-.select-grid-length-4-vertical {
+.select-grid-length-4.vertical {
     background-color: beige;
     display: grid;
     grid-template-rows: repeat(4, 29px);
@@ -149,7 +149,7 @@ body {
     gap: 1px;
 }
 
-.select-grid-length-3-vertical {
+.select-grid-length-3.vertical {
     background-color: beige;
     display: grid;
     grid-template-rows: repeat(3, 29px);
@@ -165,7 +165,7 @@ body {
     gap: 1px;
 }
 
-.select-grid-length-2-vertical {
+.select-grid-length-2.vertical {
     background-color: beige;
     display: grid;
     grid-template-rows: repeat(2, 29px);
@@ -181,7 +181,7 @@ body {
     gap: 1px;
 }
 
-.select-grid-length-1-vertical {
+.select-grid-length-1.vertical {
     background-color: beige;
     display: grid;
     grid-template-rows: 29px;
