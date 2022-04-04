@@ -439,31 +439,35 @@ getUsername.addEventListener('input', () => {
 
 function populateComputerGameboard() {
     if (computerGameboard.shipArray.length < 5){
-        let randomDirection;
-        function getRandomDirection () {
-            if (Math.random() < 0.5){
-                randomDirection = 'vertical';
-            } else if (Math.random() >= 0.5) {
-                randomDirection = undefined;
-            }
-            return randomDirection;
-        }
-        getRandomDirection();
         for (let i = 1; i < 6; i++){
+            let randomDirection;
+            function getRandomDirection () {
+                if (Math.random() < 0.5){
+                    randomDirection = 'vertical';
+                } else if (Math.random() >= 0.5) {
+                    randomDirection = undefined;
+                }
+                return randomDirection;
+            }
+            getRandomDirection();
             let randomPosition = Math.floor(Math.random() * 100 + 100);
             if (randomDirection === 'vertical'){
+                while (randomPosition+(i*10-10) >= 200){
+                    randomPosition = Math.floor(Math.random() * 100 + 100);
+                    randomPosition;
+                }
                 if (gridCell[randomPosition].dataset.y === gridCell[randomPosition+(i*10-10)].dataset.y){
                     computerGameboard.createShip(randomPosition, i, randomDirection);
                 }
             } else if (randomDirection === undefined){
+                while (randomPosition+(i-1) >= 200){
+                    randomPosition = Math.floor(Math.random() * 100 + 100);
+                    randomPosition;
+                }
                 if (gridCell[randomPosition].dataset.x === gridCell[randomPosition+(i-1)].dataset.x){
                     computerGameboard.createShip(randomPosition, i, randomDirection);
                 }
             }
-            // gridCell[i].dataset.x === gridCell[i+shipLength-1].dataset.x
-            // gridCell[i].dataset.y === gridCell[i+(shipLength*10-10)].dataset.y
-            // Math.floor(Math.random() * 100 + 100)
-            // computerGameboard.createShip(Math.floor(Math.random() * 100 + 100), i, randomDirection);
         }
         let createdShipLengths = [];
         computerGameboard.shipArray.forEach(element => createdShipLengths.push(element.length));
