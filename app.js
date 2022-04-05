@@ -435,38 +435,41 @@ getUsername.addEventListener('input', () => {
 
 //Populate Computer gameboard
 
-//FIX///////////////////////////////////////////////////////
+let randomDirection;
+let randomPosition;
+function getRandomDirection () {
+    if (Math.random() < 0.5){
+        randomDirection = 'vertical';
+    } else if (Math.random() >= 0.5) {
+        randomDirection = undefined;
+    }
+    return randomDirection;
+}
+function getRandomPosition() {
+    randomPosition = Math.floor(Math.random() * 100 + 100);
+    while (randomPosition+(4*10-10) >= 200){
+        randomPosition = Math.floor(Math.random() * 100 + 100);
+        randomPosition;
+    }
+    return randomPosition;
+}
 
 function populateComputerGameboard() {
     if (computerGameboard.shipArray.length < 5){
         for (let i = 1; i < 6; i++){
-            let randomDirection;
-            function getRandomDirection () {
-                if (Math.random() < 0.5){
-                    randomDirection = 'vertical';
-                } else if (Math.random() >= 0.5) {
-                    randomDirection = undefined;
-                }
-                return randomDirection;
-            }
             getRandomDirection();
-            let randomPosition = Math.floor(Math.random() * 100 + 100);
             if (randomDirection === 'vertical'){
+                getRandomPosition();
                 while (randomPosition+(i*10-10) >= 200){
-                    randomPosition = Math.floor(Math.random() * 100 + 100);
-                    randomPosition;
+                    getRandomPosition();
                 }
-                if (gridCell[randomPosition].dataset.y === gridCell[randomPosition+(i*10-10)].dataset.y){
-                    computerGameboard.createShip(randomPosition, i, randomDirection);
-                }
+                computerGameboard.createShip(randomPosition, i, randomDirection);
             } else if (randomDirection === undefined){
-                while (randomPosition+(i-1) >= 200){
-                    randomPosition = Math.floor(Math.random() * 100 + 100);
-                    randomPosition;
+                getRandomPosition();
+                while (randomPosition+(i-1) >= randomPosition + (10 - randomPosition%10)){
+                    getRandomPosition();
                 }
-                if (gridCell[randomPosition].dataset.x === gridCell[randomPosition+(i-1)].dataset.x){
-                    computerGameboard.createShip(randomPosition, i, randomDirection);
-                }
+                computerGameboard.createShip(randomPosition, i, randomDirection);
             }
         }
         let createdShipLengths = [];
@@ -475,7 +478,19 @@ function populateComputerGameboard() {
         let differenceLengths = requiredLengths.filter(x => !createdShipLengths.includes(x));
         while (differenceLengths.length > 0){
             for (let j = 0; j < differenceLengths.length; j++){
-                computerGameboard.createShip(Math.floor(Math.random() * 100 + 100), differenceLengths[j]);
+                if (randomDirection === 'vertical'){
+                    getRandomPosition();
+                    while (randomPosition+(j*10-10) >= 200){
+                        getRandomPosition();
+                    }
+                    computerGameboard.createShip(randomPosition, differenceLengths[j], randomDirection);
+                } else if (randomDirection === undefined){
+                    getRandomPosition();
+                    while (randomPosition+(j-1) >= randomPosition + (10 - randomPosition%10)){
+                        getRandomPosition();
+                    }
+                    computerGameboard.createShip(randomPosition, differenceLengths[j], randomDirection);
+                }
             };
             computerGameboard.shipArray.forEach(element => createdShipLengths.push(element.length));
             differenceLengths = requiredLengths.filter(x => !createdShipLengths.includes(x));
