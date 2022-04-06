@@ -383,25 +383,30 @@ for (let i = 0; i < draggableShips.length; i++){
 
 document.querySelector('.player-gameboard').addEventListener('dragover', (ev) => {
     ev.preventDefault();
+    if (!ev.target.classList.contains('player-grid-cell-battleship')){
+        ev.target.classList.add('drag-target-cell');
+    }
+});
+
+document.querySelector('.player-gameboard').addEventListener('dragleave', (ev) => {
+    ev.preventDefault();
+    ev.target.classList.remove('drag-target-cell');
 });
 
 document.querySelector('.player-gameboard').addEventListener('drop', (ev) => {
     ev.preventDefault();
     let data = ev.dataTransfer.getData("text");
     let dataSplit = data.split(' ');
-    console.log(data);
-    console.log(dataSplit);
     const shipLength = document.querySelector(`.${dataSplit[1]}`).getElementsByTagName('*').length;
-    console.log(shipLength);
     ev.target.classList.add('drop-target-cell');
     if (dataSplit.includes('vertical')){
         for (let i = 0; i < 100; i++){
-            let takenVerticalCells = [];
-                for (let i; i < i + (shipLength*10); i+=10){
-                    takenVerticalCells.push(i);
-                }
-            let checkVerticalCells = takenVerticalCells.map(el => !gridCell[el].classList.contains('player-grid-cell-battleship'));
             if (gridCell[i].classList.contains('drop-target-cell')){
+                let takenVerticalCells = [];
+                for (let j = i; j <= i + (shipLength*10-10); j+= 10){
+                    takenVerticalCells.push(j);
+                }
+                let checkVerticalCells = takenVerticalCells.map(el => !gridCell[el].classList.contains('player-grid-cell-battleship'));
                 if (i + (shipLength*10-10) < 100 && checkVerticalCells.every(v => v === true)){
                     playerGameboard.createShip(i, shipLength, 'vertical');
                     gridCell[i].classList.remove('drop-target-cell');
@@ -418,7 +423,7 @@ document.querySelector('.player-gameboard').addEventListener('drop', (ev) => {
             let takenCells = getTakenCells(i, (i + shipLength - 1));
             let checkCells = takenCells.map(el => !gridCell[el].classList.contains('player-grid-cell-battleship'));
             if (gridCell[i].classList.contains('drop-target-cell')){
-                if (i + shipLength <= 100 && checkCells.every(v => v === true) && i+(shipLength-1) <= i+(10-i%10)){
+                if (i + shipLength <= 100 && checkCells.every(v => v === true) && i+(shipLength-1) < i+(10-i%10)){
                     playerGameboard.createShip(i, shipLength);
                     gridCell[i].classList.remove('drop-target-cell');
                     document.querySelector(`.${dataSplit[1]}`).style.display = 'none';
@@ -427,6 +432,9 @@ document.querySelector('.player-gameboard').addEventListener('drop', (ev) => {
                 }
             }
         }
+    }
+    for (let i = 0; i < 100; i++){
+        gridCell[i].classList.remove('drag-target-cell');
     }
 });
 

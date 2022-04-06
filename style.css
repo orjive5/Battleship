@@ -212,3 +212,6 @@ body {
 .select-ships:hover {
     cursor: pointer;
 }
+.drag-target-cell {
+    background-color: blueviolet;
+}
