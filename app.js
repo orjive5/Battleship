@@ -448,9 +448,10 @@ getUsername.addEventListener('input', () => {
 let randomDirection;
 let randomPosition;
 function getRandomDirection () {
-    if (Math.random() < 0.5){
+    let randomNumber = Math.random();
+    if (randomNumber < 0.5){
         randomDirection = 'vertical';
-    } else if (Math.random() >= 0.5) {
+    } else if (randomNumber >= 0.5) {
         randomDirection = undefined;
     }
     return randomDirection;
@@ -472,12 +473,14 @@ function populateComputerGameboard() {
                 getRandomPosition();
                 while (randomPosition+(i*10-10) >= 200){
                     getRandomPosition();
+                    randomPosition;
                 }
                 computerGameboard.createShip(randomPosition, i, randomDirection);
             } else if (randomDirection === undefined){
                 getRandomPosition();
-                while (randomPosition+(i-1) >= randomPosition + (10 - randomPosition%10)){
+                while (randomPosition+(i-1) >= (randomPosition - randomPosition%10 + 10)){
                     getRandomPosition();
+                    randomPosition;
                 }
                 computerGameboard.createShip(randomPosition, i, randomDirection);
             }
@@ -490,14 +493,16 @@ function populateComputerGameboard() {
             for (let j = 0; j < differenceLengths.length; j++){
                 if (randomDirection === 'vertical'){
                     getRandomPosition();
-                    while (randomPosition+(j*10-10) >= 200){
+                    while (randomPosition+(differenceLengths[j]*10-10) >= 200){
                         getRandomPosition();
+                        randomPosition;
                     }
                     computerGameboard.createShip(randomPosition, differenceLengths[j], randomDirection);
                 } else if (randomDirection === undefined){
                     getRandomPosition();
-                    while (randomPosition+(j-1) >= randomPosition + (10 - randomPosition%10)){
+                    while (randomPosition+(differenceLengths[j]-1) >= (randomPosition - randomPosition%10 + 10)){
                         getRandomPosition();
+                        randomPosition;
                     }
                     computerGameboard.createShip(randomPosition, differenceLengths[j], randomDirection);
                 }
