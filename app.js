@@ -311,27 +311,13 @@ function appendNewElement(element, parent, text, id) {
     return el;
 }
 
-//Append elements
-appendNewElement('div', gameboards, undefined, 'user-information');
-const userInformation = document.querySelector('#user-information');
-userInformation.style.display = 'flex';
-userInformation.style.flexDirection = 'column';
-
-appendNewElement('label', userInformation, 'Enter your name:', 'label-for-username');
-const labelForUsername = document.querySelector('#label-for-username');
-labelForUsername.setAttribute('for', 'get-username');
-
-appendNewElement('input', userInformation, undefined, 'get-username');
-const getUsername = document.querySelector('#get-username');
-getUsername.setAttribute('placeholder', 'Your name');
-getUsername.setAttribute('type', 'text');
-
-appendNewElement('button', userInformation, 'Start game', 'start-button');
-const startButton = document.querySelector('#start-button');
-
 //DRAG AND DROP TO CREATE PLAYER'S FLEET
 
 const dragAndDropShips = document.querySelector('.select-grid');
+
+const selectShipsDiv = document.querySelector('.select-ships-div');
+
+const dragShipsDiv = document.querySelector('.drag-ships-div');
 
 const playerFleet = document.querySelector('.player-fleet');
 
@@ -433,12 +419,20 @@ document.querySelector('.player-gameboard').addEventListener('drop', (ev) => {
             }
         }
     }
+    let battleshipCellNumber = []
     for (let i = 0; i < 100; i++){
         gridCell[i].classList.remove('drag-target-cell');
+        if (gridCell[i].classList.contains('player-grid-cell-battleship')){
+            battleshipCellNumber.push(i);
+        }
+    }
+    if (battleshipCellNumber.length === 15){
+        selectShipsDiv.style.display = 'none';
     }
 });
 
 //Name player's gameboard
+const getUsername = document.querySelector('#get-username');
 getUsername.addEventListener('input', () => {
     document.querySelector('.player-gameboard-name').innerHTML = getUsername.value;
 });
@@ -514,10 +508,11 @@ function populateComputerGameboard() {
 }
 
 //START THE GAME BY CLICKING THE START BUTTON
-
+const userInformation = document.querySelector('#user-information');
+const startButton = document.querySelector('#start-button');
 startButton.addEventListener('click', () => {
     if (playerGameboard.shipArray.length === 5){
-        userInformation.style.display = 'none';
+        dragAndDropShips.style.display = 'none';
         document.querySelector('.ai-gameboard').style.display = 'initial';
         populateComputerGameboard();
     }
@@ -553,7 +548,8 @@ createNewGameButton.style.display = 'none';
 createNewGameButton.addEventListener('click', () => {
     createNewGameButton.style.display = 'none';
     gameOverMessage.style.display = 'none';
-    userInformation.style.display = 'flex';
+    dragAndDropShips.style.display = 'flex';
+    selectShipsDiv.style.display = 'initial';
     document.querySelector('.user-gameboard').style.display = 'initial';
     document.querySelector('.gameboards').style.justifyContent = 'space-around';
     draggableShips.forEach(element => element.style.display = 'grid');

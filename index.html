@@ -222,38 +222,50 @@
                 </div>
             </div>
             <div class="select-grid">
-                <div>
-                    <h1>Drag ships to the gameboard to start</h1>
+                <div class="select-ships-div">
+                    <div class="drag-ships-div">
+                        <h1>Drag ships to the gameboard to start</h1>
+                        <br>
+                        <button class="rotate-button">Rotate</button>
+                    </div>
                     <br>
-                    <button class="rotate-button">Rotate</button>
+                    <div class="player-fleet">
+                        <div class="drag-ship select-grid-length-5" draggable="true">
+                            <div class="select-ships"></div>
+                            <div class="select-ships"></div>
+                            <div class="select-ships"></div>
+                            <div class="select-ships"></div>
+                            <div class="select-ships"></div>
+                        </div>
+                        <div class="drag-ship select-grid-length-4" draggable="true">
+                            <div class="select-ships"></div>
+                            <div class="select-ships"></div>
+                            <div class="select-ships"></div>
+                            <div class="select-ships"></div>
+                        </div>
+                        <div class="drag-ship select-grid-length-3" draggable="true">
+                            <div class="select-ships"></div>
+                            <div class="select-ships"></div>
+                            <div class="select-ships"></div>
+                        </div>
+                        <div class="drag-ship select-grid-length-2" draggable="true">
+                            <div class="select-ships"></div>
+                            <div class="select-ships"></div>
+                        </div>
+                        <div class="drag-ship select-grid-length-1" draggable="true">
+                            <div class="select-ships"></div>
+                        </div>
+                    </div>
                 </div>
                 <br>
-                <div class="player-fleet">
-                    <div class="drag-ship select-grid-length-5" draggable="true">
-                        <div class="select-ships"></div>
-                        <div class="select-ships"></div>
-                        <div class="select-ships"></div>
-                        <div class="select-ships"></div>
-                        <div class="select-ships"></div>
-                    </div>
-                    <div class="drag-ship select-grid-length-4" draggable="true">
-                        <div class="select-ships"></div>
-                        <div class="select-ships"></div>
-                        <div class="select-ships"></div>
-                        <div class="select-ships"></div>
-                    </div>
-                    <div class="drag-ship select-grid-length-3" draggable="true">
-                        <div class="select-ships"></div>
-                        <div class="select-ships"></div>
-                        <div class="select-ships"></div>
-                    </div>
-                    <div class="drag-ship select-grid-length-2" draggable="true">
-                        <div class="select-ships"></div>
-                        <div class="select-ships"></div>
-                    </div>
-                    <div class="drag-ship select-grid-length-1" draggable="true">
-                        <div class="select-ships"></div>
-                    </div>
+                <div id="user-information">
+                    <label for="get-username" id="label-for-username">Enter your name:</label>
+                    <br>
+                    <br>
+                    <input type="text" id="get-username" placeholder="Your name">
+                    <br>
+                    <br>
+                    <button id="start-button">Start game</button>
                 </div>
             </div>
         </div>

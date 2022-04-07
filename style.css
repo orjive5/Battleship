@@ -215,3 +215,8 @@ body {
 .drag-target-cell {
     background-color: blueviolet;
 }
+
+.user-information {
+    display: flex;
+    flex-direction: column;
+}
