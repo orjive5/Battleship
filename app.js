@@ -185,6 +185,7 @@ const Gameboard = () => {
                 gridCell[i].classList.remove('grid-cell-attacked');
                 gridCell[i].classList.remove('player-grid-cell-battleship');
                 gridCell[i].classList.remove('computer-grid-cell-battleship');
+                gridCell[i].classList.remove('computer-battleship-sunk');
             }
 
             document.querySelector('.ai-gameboard').style.display = 'none';
@@ -223,6 +224,7 @@ const Player = () => {
 
             for (let i = 100; i < gridCell.length; i++){
                 gridCell[i].addEventListener('click', () => {
+
                     if (hitComputerCells.includes(i)){
 
                         return console.log('Already hit, try different cell')
@@ -548,7 +550,29 @@ createNewGameButton.addEventListener('click', () => {
     dragAndDropShips.style.display = 'flex';
     selectShipsDiv.style.display = 'initial';
     document.querySelector('.user-gameboard').style.display = 'initial';
-    document.querySelector('.gameboards').style.justifyContent = 'space-around';
+    document.querySelector('.gameboards').style.justifyContent = 'center';
     draggableShips.forEach(element => element.style.display = 'grid');
     getUsername.value = '';
 });
+
+//Click Github icon - link to repository
+
+const githubIcon = document.querySelector('.github-icon');
+
+githubIcon.addEventListener('click', () => {
+    window.open('https://github.com/orjive5/Battleship.git');
+})
+//If ship sunk change color
+
+function sunkIsBlack() {
+    for (let i = 100; i < 200; i++){
+        gridCell[i].addEventListener('click', () => {
+            for (let j = 0; j < computerGameboard.shipArray.length; j++){
+                if (computerGameboard.shipArray[j].isSunk()){
+                    computerGameboard.shipArray[j].shipCells.forEach(el => gridCell[el].classList.add('computer-battleship-sunk'))
+                }
+            }
+        })
+    }
+}
+sunkIsBlack();

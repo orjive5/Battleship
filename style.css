@@ -83,10 +83,8 @@ body {
 }
 
 .github-icon:hover {
-    /* transition: cubic-bezier(0.075, 0.82, 0.165, 1); */
-    width: 30px;
-    height: 30px;
     cursor: pointer;
+    fill: #7400B8;
 }
 
 .content {
@@ -148,8 +146,16 @@ body {
     background-color: crimson;
 }
 
+.computer-battleship-sunk {
+    background-color: black;
+}
+
+.computer-battleship-sunk:hover {
+    background-color: black;
+}
+
 .select-grid-length-5 {
-    background-color: beige;
+    background-color: #80FFDB;
     display: grid;
     grid-template-rows: 49px;
     grid-template-columns: repeat(5, 49px);
@@ -157,7 +163,7 @@ body {
 }
 
 .select-grid-length-5.vertical {
-    background-color: beige;
+    background-color: #80FFDB;
     display: grid;
     grid-template-rows: repeat(5, 49px);
     grid-template-columns: 49px;
@@ -165,7 +171,7 @@ body {
 }
 
 .select-grid-length-4 {
-    background-color: beige;
+    background-color: #80FFDB;
     display: grid;
     grid-template-rows: 49px;
     grid-template-columns: repeat(4, 49px);
@@ -173,7 +179,7 @@ body {
 }
 
 .select-grid-length-4.vertical {
-    background-color: beige;
+    background-color: #80FFDB;
     display: grid;
     grid-template-rows: repeat(4, 49px);
     grid-template-columns: 49px;
@@ -181,7 +187,7 @@ body {
 }
 
 .select-grid-length-3 {
-    background-color: beige;
+    background-color: #80FFDB;
     display: grid;
     grid-template-rows: 49px;
     grid-template-columns: repeat(3, 49px);
@@ -189,7 +195,7 @@ body {
 }
 
 .select-grid-length-3.vertical {
-    background-color: beige;
+    background-color: #80FFDB;
     display: grid;
     grid-template-rows: repeat(3, 49px);
     grid-template-columns: 49px;
@@ -197,7 +203,7 @@ body {
 }
 
 .select-grid-length-2 {
-    background-color: beige;
+    background-color: #80FFDB;
     display: grid;
     grid-template-rows: 49px;
     grid-template-columns: repeat(2, 49px);
@@ -205,7 +211,7 @@ body {
 }
 
 .select-grid-length-2.vertical {
-    background-color: beige;
+    background-color: #80FFDB;
     display: grid;
     grid-template-rows: repeat(2, 49px);
     grid-template-columns: 49px;
@@ -213,7 +219,7 @@ body {
 }
 
 .select-grid-length-1 {
-    background-color: beige;
+    background-color: #80FFDB;
     display: grid;
     grid-template-rows: 49px;
     grid-template-columns: 49px;
@@ -221,7 +227,7 @@ body {
 }
 
 .select-grid-length-1.vertical {
-    background-color: beige;
+    background-color: #80FFDB;
     display: grid;
     grid-template-rows: 49px;
     grid-template-columns: 49px;
