@@ -164,9 +164,9 @@ const Gameboard = () => {
         if (allSunk()){
 
             if (computerGameboard.allSunk()){
-                gameOverMessage.innerHTML = `Game over! ${document.querySelector('.player-gameboard-name').innerHTML} wins!`
+                gameOverMessage.innerHTML = `GAME OVER! ${document.querySelector('.player-gameboard-name').innerHTML} WINS!`
             } else if (playerGameboard.allSunk()){
-                gameOverMessage.innerHTML = 'Game over! Computer wins!'
+                gameOverMessage.innerHTML = 'GAME OVER! COMPUTER WINS!'
             }
 
             computerGameboard.allShipCells.length = 0;
@@ -189,8 +189,12 @@ const Gameboard = () => {
 
             document.querySelector('.ai-gameboard').style.display = 'none';
             document.querySelector('.user-gameboard').style.display = 'none';
+            gameOverDiv.style.display = 'flex';
+            gameOverDiv.style.gap = '30px';
+            gameOverDiv.style.flexDirection = 'column';
             createNewGameButton.style.display = 'initial';
             gameOverMessage.style.display = 'initial';
+            gameOverMessage.style.fontSize = '2rem';
 
             document.querySelector('.gameboards').style.justifyContent = 'center';
         }
@@ -434,7 +438,7 @@ document.querySelector('.player-gameboard').addEventListener('drop', (ev) => {
 //Name player's gameboard
 const getUsername = document.querySelector('#get-username');
 getUsername.addEventListener('input', () => {
-    document.querySelector('.player-gameboard-name').innerHTML = getUsername.value;
+    document.querySelector('.player-gameboard-name').innerHTML = getUsername.value.toUpperCase();
 });
 
 //Populate Computer gameboard
@@ -526,25 +530,18 @@ players.playerPlays();
 
 //Game Over & Create New Game
 
-appendNewElement(
-    'h1',
-    document.querySelector('.gameboards'),
-    `GAME OVER`,
-    'game-over-message'
-    );
+appendNewElement('div', gameboards, undefined, 'game-over-div')
+const gameOverDiv = document.querySelector('#game-over-div');
+gameOverDiv.style.display = 'none'
 
-    const gameOverMessage = document.querySelector('#game-over-message');
-    gameOverMessage.style.display = 'none';
+appendNewElement('h1', gameOverDiv, `GAME OVER`, 'game-over-message');
+const gameOverMessage = document.querySelector('#game-over-message');
+gameOverMessage.style.display = 'none';
 
-appendNewElement(
-    'button', 
-     document.querySelector('.gameboards'), 
-     'Create New Game', 
-     'create-new-game-button'
-    );
-
+appendNewElement('button', gameOverDiv, 'CREATE NEW GAME', 'create-new-game-button');
 const createNewGameButton = document.querySelector('#create-new-game-button');
 createNewGameButton.style.display = 'none';
+
 createNewGameButton.addEventListener('click', () => {
     createNewGameButton.style.display = 'none';
     gameOverMessage.style.display = 'none';
@@ -553,4 +550,5 @@ createNewGameButton.addEventListener('click', () => {
     document.querySelector('.user-gameboard').style.display = 'initial';
     document.querySelector('.gameboards').style.justifyContent = 'space-around';
     draggableShips.forEach(element => element.style.display = 'grid');
+    getUsername.value = '';
 });
