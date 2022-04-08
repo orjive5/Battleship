@@ -44,7 +44,7 @@ table {
 	border-spacing: 0;
 }
 
-/* CUSTOM CSS CODE */
+/* CUSTOM CSS */
 
 body {
     width: 100%;
@@ -65,14 +65,9 @@ body {
     margin-top: 10px;
 }
 
-.header>h1 {
+.header > h1 {
     font-family: 'Black Ops One', cursive;
     font-size: 5rem;
-}
-
-.battleship-icon {
-    width: 80px;
-    height: 80px;
 }
 
 .footer {
@@ -89,7 +84,6 @@ body {
 
 .content {
     width: 100%;
-    flex-grow: 2;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -111,7 +105,7 @@ body {
     grid-template-rows: repeat(10, 1fr);
     grid-template-columns: repeat(10, 1fr);
     gap: 1px;
-    border: 1px solid black;
+    border: 2px solid black;
 }
 
 .ai-gameboard {
@@ -258,7 +252,7 @@ body {
     cursor: pointer;
 }
 .drag-target-cell {
-    background-color: blueviolet;
+    background-color: #7400B8;
 }
 
 .user-information {
@@ -274,7 +268,7 @@ body {
 }
 
 button {
-    border: 0;
+    border: none;
     padding-inline: 20px;
     padding-block: 10px;
     border-radius: 10px;
@@ -287,7 +281,6 @@ button {
 button:hover {
     background-color: #7400B8;
     cursor: pointer;
-    /* font-family: 'Audiowide', cursive; */
 }
 
 #get-username {
