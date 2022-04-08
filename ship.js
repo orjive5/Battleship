@@ -1,14 +1,25 @@
 //SHIP FACTORY
 
-const Ship = (position, length) => {
+const Ship = (position, length, direction) => {
+
     const shipCells = [];
-    for (let i = position; i < position + length; i++){
-        shipCells.push(i);
+
+    if (direction === 'vertical'){
+        for (let i = position; i < position + (length*10); i+=10){
+            shipCells.push(i);
+        }
+    } else {
+        for (let i = position; i < position + length; i++){
+            shipCells.push(i);
+        }
     }
+
     const hitAt = [];
+
     const hit = (cellNumber) => {
         return hitAt.push(cellNumber);
     }
+
     const isSunk = () => {
         if (hitAt.length >= length){
             return true;
@@ -16,7 +27,16 @@ const Ship = (position, length) => {
             return false;
         }
     }
-    return {position, length, shipCells, hitAt, hit, isSunk}
+
+    return {
+        position,
+        length,
+        direction,
+        shipCells,
+        hitAt,
+        hit,
+        isSunk
+    }
 }
 
 module.exports = Ship;

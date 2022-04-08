@@ -67,8 +67,6 @@ const Gameboard = () => {
                         gridCell[i].classList.add('player-grid-cell-battleship');
                     }
     
-                } else {
-                    console.log('try different length and positions');
                 }
             } else if (tryCells.every(el => el > 100) && tryCells.every(el => el < 200)){
     
@@ -81,11 +79,7 @@ const Gameboard = () => {
                         gridCell[i].classList.add('computer-grid-cell-battleship');
                     }
     
-                } else {
-                    console.log('try different length and positions');
                 }
-            } else {
-                console.log('try different length and positions');
             }
 
         } else if (direction === undefined) {
@@ -106,8 +100,6 @@ const Gameboard = () => {
                     gridCell[i].classList.add('player-grid-cell-battleship');
                 }
 
-            } else {
-                console.log('try different length and positions');
             }
         } else if (tryCells.every(el => el > 100) && tryCells.every(el => el < 200)){
 
@@ -120,11 +112,7 @@ const Gameboard = () => {
                     gridCell[i].classList.add('computer-grid-cell-battleship');
                 }
 
-            } else {
-                console.log('try different length and positions');
             }
-        } else {
-            console.log('try different length and positions');
         }
         }
 
@@ -302,9 +290,9 @@ const gameboards = document.querySelector('.gameboards');
 const playerGameboard = Gameboard();
 const computerGameboard = Gameboard();
 
-//POPULATE PLAYER GAMEBOARD
+//POPULATE PLAYER'S GAMEBOARD
 
-//Append new element to the DOM function
+//Append new element to the DOM - utility function
 function appendNewElement(element, parent, text, id) {
     const el = document.createElement(element);
     if (text) {
@@ -405,7 +393,6 @@ document.querySelector('.player-gameboard').addEventListener('drop', (ev) => {
                     document.querySelector(`.${dataSplit[1]}`).style.display = 'none';
                 } else {
                     gridCell[i].classList.remove('drop-target-cell');
-                    console.log('not possible');
                 }
             }
         }
@@ -446,7 +433,7 @@ getUsername.addEventListener('input', () => {
 //Populate Computer gameboard
 
 let randomDirection;
-let randomPosition;
+
 function getRandomDirection () {
     let randomNumber = Math.random();
     if (randomNumber < 0.5){
@@ -456,6 +443,9 @@ function getRandomDirection () {
     }
     return randomDirection;
 }
+
+let randomPosition;
+
 function getRandomPosition() {
     randomPosition = Math.floor(Math.random() * 100 + 100);
     while (randomPosition+(4*10-10) >= 200){
@@ -562,7 +552,8 @@ const githubIcon = document.querySelector('.github-icon');
 githubIcon.addEventListener('click', () => {
     window.open('https://github.com/orjive5/Battleship.git');
 })
-//If ship sunk change color
+
+//If ship is sunk change color to black
 
 function sunkIsBlack() {
     for (let i = 100; i < 200; i++){
